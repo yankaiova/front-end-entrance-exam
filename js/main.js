@@ -1,24 +1,41 @@
-import '../css/style.css'
-import javascriptLogo from '../javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+document.addEventListener('DOMContentLoaded', () => {
+  const selectors = ['h1', 'h2', 'h3', 'p', 'li', '.info', '.tag'];
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+  selectors.forEach((selector) => {
+    document.querySelectorAll(selector).forEach((el, index) => {
+      const key = `editable-${selector}-${index}`;
+      el.setAttribute('contenteditable', 'true');
+      el.classList.add('editable');
+      el.dataset.key = key;
 
-setupCounter(document.querySelector('#counter'))
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        el.innerHTML = saved;
+      }
+
+      el.addEventListener('blur', () => {
+        localStorage.setItem(key, el.innerHTML);
+        el.style.animation = 'fadeInBg 0.35s ease forwards';
+        setTimeout(() => (el.style.animation = ''), 350);
+      });
+    });
+  });
+
+  document.body.addEventListener('click', (e) => {
+    const el = e.target.closest('.editable');
+    if (!el) return;
+
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+
+    const rect = el.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 2;
+
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = e.clientX - rect.left - size / 2 + 'px';
+    ripple.style.top = e.clientY - rect.top - size / 2 + 'px';
+
+    el.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+});
