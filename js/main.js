@@ -23,7 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.body.addEventListener('click', (e) => {
     const el = e.target.closest('.editable');
-    if (!el) return;
+    if (!el) {
+      return;
+    }
 
     const ripple = document.createElement('span');
     ripple.className = 'ripple';

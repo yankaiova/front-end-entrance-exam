@@ -41,8 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('header.header');
     const main = document.querySelector('main');
 
-    if (header) container.appendChild(header.cloneNode(true));
-    if (main) container.appendChild(main.cloneNode(true));
+    if (header) {
+      container.appendChild(header.cloneNode(true));
+    }
+    if (main) {
+      container.appendChild(main.cloneNode(true));
+    }
 
     const options = {
       margin: 0,
