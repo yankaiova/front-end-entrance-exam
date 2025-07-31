@@ -1,3 +1,5 @@
+import html2pdf from 'html2pdf.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   const downloadBtn = document.getElementById('downloadBtn');
   downloadBtn.addEventListener('click', () => {
